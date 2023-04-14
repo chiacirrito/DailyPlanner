@@ -1,0 +1,12 @@
+.Search {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+
+  input {
+    padding: 5px;
+    width: 70%;
+  }
+}

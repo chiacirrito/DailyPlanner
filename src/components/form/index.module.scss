@@ -1,0 +1,33 @@
+.Form {
+  padding: 40px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+
+    input {
+      padding: 5px 10px;
+    }
+
+    .select {
+      display: flex;
+      justify-content: center;
+      padding: 5px 10px;
+      background-color: white;
+      color: black;
+      gap: 10px;
+    }
+
+    .time {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+
+      .special {
+        width: 50%;
+      }
+    }
+  }
+}
