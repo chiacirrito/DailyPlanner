@@ -1,4 +1,14 @@
 .Header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
   margin: 0;
   width: 100%;
+  background-color: #628799;
+
+  p {
+    font-size: 20pt;
+    letter-spacing: 2px;
+  }
 }
