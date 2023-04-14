@@ -1,9 +1,12 @@
+import { FcPlanner } from "react-icons/fc";
 import styles from "./index.module.scss";
 
 const Header = () => {
   return (
     <div className={styles.Header}>
-      <p>Daily Planner</p>
+      <p>
+        Planner <FcPlanner />
+      </p>
     </div>
   );
 };

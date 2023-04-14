@@ -1,27 +1,24 @@
-import { initialState } from "./store";
-import { globalReducer } from "./store/redurcers";
-import { ApplicationCtx } from "./store";
-import { useReducer } from "react";
 import Header from "./components/header";
 import Form from "./components/form/Form";
 import styles from "./App.module.scss";
-import List from "./components/list/List";
-import SearchBar from "./components/searchBar/SearchBar";
+import React from "react";
+import store from "./redux/store";
+import { Provider } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
+import ListCard from "./components/listCard/ListCard";
 
 function App() {
-  const [state, dispatch] = useReducer(globalReducer, initialState);
-
   return (
     <div className={styles.App}>
-      <ApplicationCtx.Provider value={{ state, dispatch }}>
+      <Provider store={store}>
         <div className={styles.main}>
           <Header />
-          <Form />
-          <SearchBar />
-          <List />
+          <div className={styles.special}>
+            <Form />
+            <ListCard />
+          </div>
         </div>
-      </ApplicationCtx.Provider>
+      </Provider>
     </div>
   );
 }

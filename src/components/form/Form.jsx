@@ -1,33 +1,36 @@
-import { useState, useContext } from "react";
-import { ApplicationCtx } from "../../store";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addNewDate, updateDate } from "../../redux/actions";
 import styles from "./index.module.scss";
 
 const Form = () => {
-  const { dispatch } = useContext(ApplicationCtx);
-  const [what, setWhat] = useState("");
-  const [where, setWhere] = useState("");
-  const [day, setDay] = useState("");
-  const [time, setTime] = useState("");
-  const [type, setType] = useState("");
+  const [value, setValue] = useState("");
+  const dispatch = useDispatch();
+  const isEdit = useSelector((state) => state.dailyReducer.isEdit);
+  const editDate = useSelector((state) => state.dailyReducer.editDate);
+
+  useEffect(() => {
+    editDate && setValue(() => editDate);
+  }, [editDate]);
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    dispatch({
-      type: "ADD_NEW_DATE",
-      payload: {
-        id: Math.floor(Math.random() * 1000),
-        what,
-        where,
-        day,
-        time,
-        type,
-      },
+
+    if (isEdit) {
+      dispatch(updateDate(editDate.id, value));
+    } else {
+      dispatch(addNewDate(value));
+    }
+    setValue({ what: "" });
+    document.getElementById("formDate").reset();
+  };
+
+  const changeEvent = (e) => {
+    e.preventDefault();
+    setValue({
+      ...value,
+      [e.target.name]: e.target.value,
     });
-    setWhat(() => "");
-    setWhere(() => "");
-    setDay(() => "");
-    setTime(() => "");
-    setType(() => "");
   };
 
   return (
@@ -35,69 +38,43 @@ const Form = () => {
       <form id="formDate" onSubmit={onHandleSubmit}>
         <input
           type="text"
-          value={what}
+          defaultValue={value?.what}
           id="what"
           name="what"
-          onChange={(e) => setWhat(() => e.target.value)}
+          onChange={(e) => changeEvent(e)}
           placeholder="What?"
           required
         />
         <input
           type="text"
-          value={where}
+          defaultValue={value?.where}
           id="where"
           name="where"
-          onChange={(e) => setWhere(() => e.target.value)}
+          onChange={(e) => changeEvent(e)}
           placeholder="Where?"
         />
         <div className={styles.day}>
           <div className={styles.time}>
             <input
               type="day"
-              value={day}
+              defaultValue={value?.day}
               id="day"
               name="day"
-              onChange={(e) => setDay(() => e.target.value)}
+              onChange={(e) => changeEvent(e)}
               placeholder="Day of the week"
               className={styles.special}
             />
             <input
               type="time"
-              value={time}
+              defaultValue={value?.time}
               id="time"
               name="time"
-              onChange={(e) => setTime(() => e.target.value)}
+              onChange={(e) => changeEvent(e)}
               className={styles.special}
             />
           </div>
         </div>
-        <div className={styles.select}>
-          <input
-            type="radio"
-            name="type"
-            id="Serious"
-            value="serious"
-            onChange={(e) => setType(() => e.target.value)}
-          />{" "}
-          Serious
-          <input
-            type="radio"
-            name="type"
-            id="Funny"
-            value="funny"
-            onChange={(e) => setType(() => e.target.value)}
-          />
-          Funny
-          <input
-            type="radio"
-            name="type"
-            id="Other"
-            value="other"
-            onChange={(e) => setType(() => e.target.value)}
-          />
-          Other
-        </div>
-        <input type="submit" value="Submit" />
+        <input className={styles.btn} type="submit" value="Add Date" />
       </form>
     </div>
   );
